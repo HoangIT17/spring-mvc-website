@@ -2,6 +2,7 @@ package vn.hoidanit.laptopshop.controller.admin;
 
 import java.util.List;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +24,13 @@ public class UserController {
     //DI: Dependency Injection
     private final UserService userService;
     private final UploadService uploadService;
+    private final PasswordEncoder passwordEncoder;
     
-    public UserController(UserService userService, UploadService uploadService) {
+    public UserController(UserService userService, UploadService uploadService, 
+    PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @RequestMapping("/")
@@ -69,8 +73,14 @@ public class UserController {
         @RequestParam("hoangitFile") MultipartFile file) {
             
         String avatar = this.uploadService.handleUploadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(hoangit.getPassword());
+
+        hoangit.setAvatar(avatar);
+        hoangit.setPassword(hashPassword);
+        hoangit.setRole(this.userService.getRoleByName(hoangit.getRole().getName()));
         
-        // this.userService.handleSaveUser(hoangit;
+        //save
+        this.userService.handleSaveUser(hoangit);
         return "redirect:/admin/user"; // Assuming you have a home.html template
     }
 
@@ -89,6 +99,8 @@ public class UserController {
             currentUser.setFullName(hoangit.getFullName());
             currentUser.setPhone(hoangit.getPhone());
             currentUser.setAddress(hoangit.getAddress());
+            // Add role update
+            currentUser.setRole(this.userService.getRoleByName(hoangit.getRole().getName()));
 
             this.userService.handleSaveUser(currentUser);
         }
@@ -109,4 +121,6 @@ public class UserController {
         this.userService.deleteAUser(hoangit.getId());
         return "redirect:/admin/user"; // Assuming  you have a home.html template
     }
+
+
 }
