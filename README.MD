@@ -1,28 +1,16 @@
-# 🚀 Java Spring MVC - Xây Dựng FullStack Website với Spring Boot
+# Java Spring Starter template (update)
+Template này được sử dụng cho series Java Spring MVC (dự án laptopshop) của tác giả Hỏi Dân IT (Eric)
 
-This is the **starter project** for the **Java Spring MVC - Xây Dựng FullStack Website với Spring Boot**
+## Về tác giả
+Mọi thông tin về Tác giả Hỏi Dân IT, các bạn có thể tìm kiếm tại đây:
 
----
+Website chính thức: https://hoidanit.vn/
 
-## 📢 IMPORTANT NOTICE
+Youtube “Hỏi Dân IT” : https://www.youtube.com/@hoidanit
 
-This source code is provided **exclusively for enrolled students** in this course.  
-❌ **DO NOT UPLOAD this code to GitHub (Public), GitLab, or any other public repository.**  
-❌ **DO NOT SHARE this project on forums, Telegram, Discord, or social media.**  
-✅ You **can use Git** for personal learning, but **your repository must be PRIVATE**.
+Tiktok “Hỏi Dân IT” :  https://www.tiktok.com/@hoidanit
 
-💡 **Violators may face:**
+Fanpage “Hỏi Dân IT” : https://www.facebook.com/askITwithERIC/
 
-- DMCA takedown requests.
-- Account suspension on learning platforms.
-- Legal action in serious cases.
+Udemy Hỏi Dân IT: https://www.udemy.com/user/eric-7039/
 
-## 📖 How to Use This Project?
-
-===
-Môi trường chạy dự án: Java 17
-<<<<<<< HEAD
-
-## Admin
-
-HoangIT

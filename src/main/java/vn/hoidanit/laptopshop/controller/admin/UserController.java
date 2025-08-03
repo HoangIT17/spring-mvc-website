@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,21 +14,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.service.UploadService;
 import vn.hoidanit.laptopshop.service.UserService;
 
-
 @Controller
 public class UserController {
-    
-    //DI: Dependency Injection
+
     private final UserService userService;
     private final UploadService uploadService;
     private final PasswordEncoder passwordEncoder;
-    
-    public UserController(UserService userService, UploadService uploadService, 
-    PasswordEncoder passwordEncoder) {
+
+    public UserController(
+            UploadService uploadService,
+            UserService userService,
+            PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.uploadService = uploadService;
         this.passwordEncoder = passwordEncoder;
@@ -35,76 +37,93 @@ public class UserController {
 
     @RequestMapping("/")
     public String getHomePage(Model model) {
-        List<User> arrUsers = this.userService.getAllUsersByEmail("Hpham172002@gmail.com");
+        List<User> arrUsers = this.userService.getAllUsersByEmail("admin@gmail.com");
         System.out.println(arrUsers);
 
-
-        model.addAttribute("hoangit","test");
-        model.addAttribute("hoidanit", "From Controller with Model");
-        return "hello"; // Assuming you have a home.html template
+        model.addAttribute("eric", "test");
+        model.addAttribute("hoidanit", "from controller with model");
+        return "hello";
     }
 
-    @RequestMapping("/admin/user") //Method GET
+    @RequestMapping("/admin/user")
     public String getUserPage(Model model) {
         List<User> users = this.userService.getAllUsers();
-        model.addAttribute("users1", users);      
-        return "admin/user/show"; // Assuming you have a home.html template
+        model.addAttribute("users1", users);
+        return "admin/user/show";
     }
 
-    //Update user details
-    @RequestMapping("/admin/user/{id}") //Method GET
-    public String getUserDetailsPage(Model model, @PathVariable long id) {
-        // System.out.println("Check path id: " + id);
+    @RequestMapping("/admin/user/{id}")
+    public String getUserDetailPage(Model model, @PathVariable long id) {
         User user = this.userService.getUserById(id);
         model.addAttribute("user", user);
         model.addAttribute("id", id);
-        return "admin/user/detail"; // Assuming you have a home.html template
+        return "admin/user/detail";
     }
 
-    @GetMapping("/admin/user/create") //Method GET
+    @GetMapping("/admin/user/create") // GET
     public String getCreateUserPage(Model model) {
         model.addAttribute("newUser", new User());
-        return "admin/user/create"; // Assuming you have a home.html template
+        return "admin/user/create";
     }
 
     @PostMapping(value = "/admin/user/create")
-    public String createUserPage(Model model, 
-        @ModelAttribute("newUser") User hoangit, 
-        @RequestParam("hoangitFile") MultipartFile file) {
-            
-        String avatar = this.uploadService.handleUploadFile(file, "avatar");
-        String hashPassword = this.passwordEncoder.encode(hoangit.getPassword());
-
-        hoangit.setAvatar(avatar);
-        hoangit.setPassword(hashPassword);
-        hoangit.setRole(this.userService.getRoleByName(hoangit.getRole().getName()));
+    public String createUserPage(Model model,
+            @ModelAttribute("newUser") @Valid User hoidanit,
+            BindingResult newUserBindingResult,
+            @RequestParam("hoidanitFile") MultipartFile file) {
         
-        //save
-        this.userService.handleSaveUser(hoangit);
-        return "redirect:/admin/user"; // Assuming you have a home.html template
+        // Validate and process the user data
+        //    List<FieldError> errors = bindingResult.getFieldErrors();
+        //     for (FieldError error : errors ) {
+        //         System.out.println (">>>>" + error.getField() + " - " 
+        //             + error.getDefaultMessage());
+            
+        //Validate
+        if (newUserBindingResult.hasErrors()) {
+        
+            return "admin/user/create";
+        }
+
+        // Handle file upload and password encoding
+        String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+        String hashPassword = this.passwordEncoder.encode(hoidanit.getPassword());
+
+        hoidanit.setAvatar(avatar);
+        hoidanit.setPassword(hashPassword);
+        hoidanit.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
+        // save
+        this.userService.handleSaveUser(hoidanit);
+        return "redirect:/admin/user";
     }
 
-    @RequestMapping("/admin/user/update/{id}") //Method GET
+    @RequestMapping("/admin/user/update/{id}") // GET
     public String getUpdateUserPage(Model model, @PathVariable long id) {
         User currentUser = this.userService.getUserById(id);
         model.addAttribute("newUser", currentUser);
-        return "admin/user/update"; // Assuming you have a home.html template
+        return "admin/user/update";
     }
 
     @PostMapping("/admin/user/update")
-    public String postUpdateUser(Model model, @ModelAttribute("newUser") User hoangit) {
-        User currentUser = this.userService.getUserById(hoangit.getId());
-
+    public String postUpdateUser(Model model, 
+            @ModelAttribute("newUser") User hoidanit,
+            @RequestParam("hoidanitFile") MultipartFile file) {
+        User currentUser = this.userService.getUserById(hoidanit.getId());
         if (currentUser != null) {
-            currentUser.setFullName(hoangit.getFullName());
-            currentUser.setPhone(hoangit.getPhone());
-            currentUser.setAddress(hoangit.getAddress());
-            // Add role update
-            currentUser.setRole(this.userService.getRoleByName(hoangit.getRole().getName()));
+            currentUser.setAddress(hoidanit.getAddress());
+            currentUser.setFullName(hoidanit.getFullName());
+            currentUser.setPhone(hoidanit.getPhone());
+            currentUser.setRole(this.userService.getRoleByName(hoidanit.getRole().getName()));
+
+            // Handle file upload if new file is selected
+            if (!file.isEmpty()) {
+                String avatar = this.uploadService.handleSaveUploadFile(file, "avatar");
+                currentUser.setAvatar(avatar);
+            }
+            // If no new file, keep the existing avatar
 
             this.userService.handleSaveUser(currentUser);
         }
-        return "redirect:/admin/user"; // Assuming you have a home.html template
+        return "redirect:/admin/user";
     }
 
     @GetMapping("/admin/user/delete/{id}")
@@ -113,14 +132,12 @@ public class UserController {
         // User user = new User();
         // user.setId(id);
         model.addAttribute("newUser", new User());
-        return "admin/user/delete"; // Assuming you have a home.html template
+        return "admin/user/delete";
     }
 
     @PostMapping("/admin/user/delete")
-    public String postDeleteUser(Model model, @ModelAttribute("newUser") User hoangit) {
-        this.userService.deleteAUser(hoangit.getId());
-        return "redirect:/admin/user"; // Assuming  you have a home.html template
+    public String postDeleteUser(Model model, @ModelAttribute("newUser") User eric) {
+        this.userService.deleteAUser(eric.getId());
+        return "redirect:/admin/user";
     }
-
-
 }

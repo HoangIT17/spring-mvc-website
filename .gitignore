@@ -31,9 +31,3 @@ build/
 
 ### VS Code ###
 .vscode/
-# git add.
-# git commit -m "Update ..."
-# git push origin main
-# .vscode/settings.json
-# .vscode/tasks.json
-# .vscode/launch.json

@@ -10,33 +10,63 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    
+
+    @NotNull(message = "Email cannot be null")
+    @Email(message = "Email is invalid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
+
+
+    @NotNull(message = "Password cannot be null")
+    @Size(min = 8, message = "Password must be at least 8 characters long")
     private String password;
+
+    @NotNull(message = "Full name cannot be null")
+    @Size(min = 3, message = "Full name must be at least 3 characters long")
     private String fullName;
+
     private String address;
+
     private String phone;
+
+    // Avatar không cần validation vì có thể null khi chưa upload
+    private String avatar;
     
-    private String avatar; // Assuming you might want to add an avatar field later
-    
-    //roleId
-    //User many -> to one ->role
+    // roleId
+    // User many -> to one -> role
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
 
-    //Orders - one -> to many -> orders
     @OneToMany(mappedBy = "user")
     List<Order> orders;
-    
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
     public long getId() {
         return id;
     }
@@ -76,7 +106,7 @@ public class User {
     public void setAddress(String address) {
         this.address = address;
     }
-    
+
     public String getPhone() {
         return phone;
     }
@@ -84,7 +114,7 @@ public class User {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    
+
     public String getAvatar() {
         return avatar;
     }
@@ -93,28 +123,10 @@ public class User {
         this.avatar = avatar;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public List<Order> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(List<Order> orders) {
-        this.orders = orders;
-    }
-
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
-                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", orders="
-                + orders + "]";
+                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + "]";
     }
 
-    
 }

@@ -14,20 +14,19 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "orders")
 public class Order {
-    
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     private double totalPrice;
 
-    //User Id - many -> to one -> User
+    // user id
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetails;
+    List<OrderDetail> orderDetails;
 
     public long getId() {
         return id;
@@ -45,27 +44,9 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public List<OrderDetail> getOrderDetails() {
-        return orderDetails;
-    }
-
-    public void setOrderDetails(List<OrderDetail> orderDetails) {
-        this.orderDetails = orderDetails;
-    }
-
     @Override
     public String toString() {
-        return "Order [id=" + id + ", totalPrice=" + totalPrice + ", user=" + user + ", orderDetails=" + orderDetails
-                + "]";
+        return "Order [id=" + id + ", totalPrice=" + totalPrice + "]";
     }
 
-    
 }
