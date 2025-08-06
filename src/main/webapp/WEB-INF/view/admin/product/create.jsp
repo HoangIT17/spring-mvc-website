@@ -54,9 +54,6 @@
                                                 <c:set var="errorDetailDesc">
                                                     <form:errors path="detailDesc" cssClass="invalid-feedback" />
                                                 </c:set>
-                                                <c:set var="errorShortDesc">
-                                                    <form:errors path="shortDesc" cssClass="invalid-feedback" />
-                                                </c:set>
                                                 <c:set var="errorQuantity">
                                                     <form:errors path="quantity" cssClass="invalid-feedback" />
                                                 </c:set>
@@ -83,46 +80,24 @@
                                                     ${errorDetailDesc}
                                                 </div>
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Short description:</label>
-                                                    <form:input type="text" 
-                                                    class="form-control ${not empty errorShortDesc ? 'is-invalid' : ''}" 
-                                                    path="shortDesc" />
-                                                    ${errorShortDesc}
-                                                </div>
-                                                <div class="mb-3 col-12 col-md-6">
                                                     <label class="form-label">Quantity:</label>
                                                     <form:input type="text" class="form-control ${not empty errorQuantity ? 'is-invalid' : ''}" 
                                                     path="quantity" />
                                                     ${errorQuantity}
                                                 </div>
 
-                                                <!-- <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Sold:</label>
-                                                    <form:input type="number" class="form-control" path="sold" />
-                                                </div> -->
                                                 <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Factory:</label>
-                                                    <form:select class="form-select" path="factory">
-                                                        <form:option value="APPLE">Apple (MacBook)</form:option>
-                                                        <form:option value="ASUS">Asus</form:option>
-                                                        <form:option value="LENOVO">Lenovo</form:option>
-                                                        <form:option value="DELL">Dell</form:option>
-                                                        <form:option value="LG">LG</form:option>
-                                                        <form:option value="ACER">Acer</form:option>
+                                                    <label class="form-label">Categories:</label>
+                                                    <form:select class="form-select" path="categories">
+                                                        <form:option value="PIZZA">Pizza</form:option>
+                                                        <form:option value="BURGER_CHICKEN">Burger & Chicken</form:option>
+                                                        <form:option value="DRINKS">Drinks</form:option>
+                                                        <form:option value="NOODLES">Noodles</form:option>
+                                                        <form:option value="RICE">Rice</form:option>
                                                     </form:select>  
                                                 </div>
-                                                <div class="mb-3 col-12 col-md-6">
-                                                    <label class="form-label">Target:</label>
-                                                    <form:select class="form-select" path="target">
-                                                        <form:option value="GAMING">Gaming</form:option>
-                                                        <form:option value="SINHVIEN-VANPHONG">Sinh viên - Văn phòng</form:option>
-                                                        <form:option value="THIET-KE-DO-HOA">Thiết kế đồ họa</form:option>
-                                                        <form:option value="MONG-NHE">Mỏng nhẹ</form:option>
-                                                        <form:option value="DOANH-NHAN">Doanh nhân</form:option>
-                                                    </form:select>
-                                                </div>
 
-                                                <div class="mb-3 col-12 col-md-6">
+                                                <div class="mb-3 col-12">
                                                     <label for="avatarFile" class="form-label">Image:</label>
                                                     <input class="form-control" type="file" id="avatarFile"
                                                         accept=".png, .jpg, .jpeg" name="hoidanitFile" />

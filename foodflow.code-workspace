@@ -1,0 +1,12 @@
+{
+    "folders": [
+        {
+            "name": "foodflow",
+            "path": "."
+        }
+    ],
+    "settings": {
+        "java.project.name": "foodflow",
+        "java.configuration.updateBuildConfiguration": "automatic"
+    }
+}
