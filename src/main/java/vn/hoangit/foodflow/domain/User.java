@@ -24,9 +24,9 @@ public class User {
     private long id;
 
     @NotNull(message = "Email cannot be null")
-    @Email(message = "Email is invalid", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
+    @Email(message = "Email is invalid", 
+        regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     private String email;
-
 
     @NotNull(message = "Password cannot be null")
     @Size(min = 8, message = "Password must be at least 8 characters long")
@@ -43,6 +43,10 @@ public class User {
     // Avatar không cần validation vì có thể null khi chưa upload
     private String avatar;
     
+    // Location (for shippers and customer)
+    private Double latitude;  // nullable until user sets
+    private Double longitude; // nullable until user sets
+
     // roleId
     // User many -> to one -> role
     @ManyToOne
@@ -127,6 +131,22 @@ public class User {
         this.avatar = avatar;
     }
 
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
     public Cart getCart() {
         return cart;
     }
@@ -138,8 +158,8 @@ public class User {
     @Override
     public String toString() {
         return "User [id=" + id + ", email=" + email + ", password=" + password + ", fullName=" + fullName
-                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + ", role=" + role + ", orders="
-                + orders + ", cart=" + cart + "]";
+                + ", address=" + address + ", phone=" + phone + ", avatar=" + avatar + ", latitude=" + latitude
+                + ", longitude=" + longitude + "]";
     }
 
     

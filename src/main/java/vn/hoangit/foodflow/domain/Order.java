@@ -1,5 +1,6 @@
 package vn.hoangit.foodflow.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.Entity;
@@ -9,7 +10,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name = "orders")
@@ -28,8 +32,15 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    // Assigned shipper (nullable until accepted)
+    @ManyToOne
+    @JoinColumn(name = "shipper_id")
+    private User shipper;
     @OneToMany(mappedBy = "order")
-    List<OrderDetail> orderDetails;
+    private List<OrderDetail> orderDetails;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
     public long getId() {
         return id;
@@ -95,11 +106,33 @@ public class Order {
         this.orderDetails = orderDetails;
     }
 
+    public User getShipper() {
+        return shipper;
+    }
+
+    public void setShipper(User shipper) {
+        this.shipper = shipper;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.createdAt == null) {
+            this.createdAt = new Date();
+        }
+    }
+
     @Override
     public String toString() {
         return "Order [id=" + id + ", totalPrice=" + totalPrice + ", receiverName=" + receiverName
-                + ", receiverAddress=" + receiverAddress + ", receiverPhone=" + receiverPhone + ", status=" + status
-                + ", user=" + user + ", orderDetails=" + orderDetails + "]";
+                + ", receiverAddress=" + receiverAddress + ", receiverPhone=" + receiverPhone + ", status=" + status + "]";
     }
 
     

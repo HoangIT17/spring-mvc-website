@@ -1,13 +1,16 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <footer class="py-4 bg-light mt-auto">
+        <!-- Admin Footer -->
+        <footer class="py-5 bg-light mt-auto">
             <div class="container-fluid px-4">
                 <div class="d-flex align-items-center justify-content-between small">
-                    <div class="text-muted">Copyright &copy; Hoang IT 2025</div>
+                    <div class="text-muted">
+                        &copy; 2025 <strong class="text-warning">FoodFlow</strong> - Admin Dashboard
+                    </div>
                     <div>
-                        <a href="https://hoidanit.vn/" target="_blank">Website</a>
+                        <a href="#" class="text-decoration-none text-muted">Privacy Policy</a>
                         &middot;
-                        <a href="https://www.youtube.com/@hoidanit" target="_blank">Youtube channel</a>
+                        <a href="#" class="text-decoration-none text-muted">Terms &amp; Conditions</a>
                     </div>
                 </div>
             </div>

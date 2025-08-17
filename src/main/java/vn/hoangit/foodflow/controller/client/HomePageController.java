@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import vn.hoangit.foodflow.domain.Order;
 import vn.hoangit.foodflow.domain.Product;
 import vn.hoangit.foodflow.domain.User;
 import vn.hoangit.foodflow.domain.dto.RegisterDTO;
+import vn.hoangit.foodflow.service.OrderService;
 import vn.hoangit.foodflow.service.ProductService;
 import vn.hoangit.foodflow.service.UserService;
 
@@ -24,18 +28,30 @@ public class HomePageController {
     private final ProductService productService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
     public HomePageController(ProductService productService,
-        UserService userService, PasswordEncoder passwordEncoder) {
+        UserService userService, PasswordEncoder passwordEncoder, 
+        OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }   
     
     @GetMapping("/")
     public String getHomePage(Model model) {
         List<Product> products = this.productService.fetchProducts();
-        model.addAttribute("products", products);          
+        model.addAttribute("products", products);
+        
+        // Add category product counts
+        java.util.Map<String, Long> categoryCounts = this.productService.getCategoryProductCounts();
+        model.addAttribute("pizzaCount", categoryCounts.get("pizzaCount"));
+        model.addAttribute("burgerChickenCount", categoryCounts.get("burgerChickenCount"));
+        model.addAttribute("noodleCount", categoryCounts.get("noodleCount"));
+        model.addAttribute("drinkCount", categoryCounts.get("drinkCount"));
+        model.addAttribute("riceCount", categoryCounts.get("riceCount"));
+        
         return "client/homepage/show";
     }
 
@@ -81,5 +97,22 @@ public class HomePageController {
     public String getDenyPage(Model model) {
         // model.addAttribute("loginUser", new LoginDTO());
         return "client/auth/deny";
+    }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("id") == null) {
+            model.addAttribute("orders", null);
+            return "client/cart/order-history";
+        }
+        long id = (long) session.getAttribute("id");
+        User currentUser = new User();
+        currentUser.setId(id);
+
+        List<Order> orders = this.orderService.fetchOrderByUser(currentUser);
+        model.addAttribute("orders", orders);
+
+        return "client/cart/order-history";
     }
 }

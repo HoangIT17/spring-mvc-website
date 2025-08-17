@@ -28,19 +28,46 @@ public class ProductService {
     private final UserService userService;
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
+    private final OrderService orderService;
 
     public ProductService(ProductRepository productRepository, 
         CartRepository cartRepository, 
         CartDetailRepository cartDetailRepository,
         UserService userService,
         OrderRepository orderRepository,
-        OrderDetailRepository orderDetailRepository) {
-            this.productRepository = productRepository;
-            this.cartRepository = cartRepository;
-            this.cartDetailRepository = cartDetailRepository;
-            this.userService = userService;
-            this.orderRepository = orderRepository;
-            this.orderDetailRepository = orderDetailRepository;
+        OrderDetailRepository orderDetailRepository,
+            OrderService orderService) {
+                this.productRepository = productRepository;
+                this.cartRepository = cartRepository;
+                this.cartDetailRepository = cartDetailRepository;
+                this.userService = userService;
+                this.orderRepository = orderRepository;
+                this.orderDetailRepository = orderDetailRepository;
+                this.orderService = orderService;
+    }
+    
+    // Recommend sản phẩm cùng loại dựa trên lịch sử đặt hàng
+    public List<Product> recommendProductsForUser(User user) {
+        List<String> categories = this.orderService.getUserPurchasedCategories(user);
+        // Lấy sản phẩm user đã mua
+        List<Order> orders = orderService.fetchOrderByUser(user);
+        java.util.Set<Long> purchasedProductIds = new java.util.HashSet<>();
+        for (Order order : orders) {
+            for (OrderDetail detail : order.getOrderDetails()) {
+                purchasedProductIds.add(detail.getProduct().getId());
+            }
+        }
+        List<Product> recommended = new java.util.ArrayList<>();
+        for (String category : categories) {
+            List<Product> products = productRepository.findByCategoriesContainingIgnoreCase(category);
+            for (Product p : products) {
+                if (!purchasedProductIds.contains(p.getId())) {
+                    recommended.add(p);
+                }
+            }
+        }
+        // Trả về tối đa 10 sản phẩm gợi ý
+        return recommended.stream().limit(10).toList();
     }
 
     public Product createProduct(Product product) {
@@ -49,6 +76,98 @@ public class ProductService {
 
     public List<Product> fetchProducts() {
         return this.productRepository.findAll();
+    }
+
+    public List<Product> getAllProducts() {
+        return this.productRepository.findAll();
+    }
+
+    public List<Product> findByCategory(String category) {
+        // Convert formatted category name back to original format for database search
+        String originalCategory = convertToOriginalCategory(category);
+        return this.productRepository.findByCategoriesContainingIgnoreCase(originalCategory);
+    }
+
+    private String convertToOriginalCategory(String formattedCategory) {
+        if (formattedCategory == null || formattedCategory.isEmpty()) {
+            return "";
+        }
+        
+        // Convert back to original format
+        switch (formattedCategory.toLowerCase()) {
+            case "burger & chicken":
+                return "BURGER_CHICKEN";
+            case "hot food":
+                return "HOT_FOOD";
+            case "fast food":
+                return "FAST_FOOD";
+            default:
+                // Convert to uppercase and replace spaces with underscores
+                return formattedCategory.toUpperCase().replace(" ", "_");
+        }
+    }
+
+    public List<Product> searchProducts(String keyword) {
+        return this.productRepository.findByNameContainingIgnoreCaseOrDetailDescContainingIgnoreCase(keyword, keyword);
+    }
+
+    public List<String> getAllCategories() {
+        List<String> rawCategories = this.productRepository.findDistinctCategories();
+        return rawCategories.stream()
+            .map(this::formatCategoryName)
+            .distinct()
+            .collect(java.util.stream.Collectors.toList());
+    }
+    
+    public long getProductCountByCategory(String category) {
+        return this.productRepository.countByCategoriesContainingIgnoreCase(category);
+    }
+    
+    public java.util.Map<String, Long> getCategoryProductCounts() {
+        java.util.Map<String, Long> counts = new java.util.HashMap<>();
+        
+        // Count for each main category
+        counts.put("pizzaCount", getProductCountByCategory("PIZZA"));
+        counts.put("burgerChickenCount", getProductCountByCategory("BURGER_CHICKEN"));
+        counts.put("noodleCount", getProductCountByCategory("NOODLE"));
+        counts.put("drinkCount", getProductCountByCategory("DRINK"));
+        counts.put("riceCount", getProductCountByCategory("RICE"));
+        
+        return counts;
+    }
+
+    private String formatCategoryName(String category) {
+        if (category == null || category.isEmpty()) {
+            return "Other";
+        }
+        
+        // Replace underscores with spaces and capitalize each word
+        String formatted = category.replace("_", " ")
+            .toLowerCase();
+        
+        // Capitalize first letter of each word
+        String[] words = formatted.split(" ");
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < words.length; i++) {
+            if (i > 0) result.append(" ");
+            if (!words[i].isEmpty()) {
+                result.append(words[i].substring(0, 1).toUpperCase())
+                .append(words[i].substring(1));
+            }
+        }
+        formatted = result.toString();
+        
+        // Special cases for better formatting
+        switch (formatted.toLowerCase()) {
+            case "burger chicken":
+                return "Burger & Chicken";
+            case "hot food":
+                return "Hot Food";
+            case "fast food":
+                return "Fast Food";
+            default:
+                return formatted;
+        }
     }
 
     public Optional<Product> fetchProductById(long id) {
@@ -154,30 +273,40 @@ public class ProductService {
         }
     }
 
-    public void handlePlaceOrder(
+    public Order handlePlaceOrder(
         User user, HttpSession session, 
         String receiverName, String receiverAddress, String receiverPhone) {
-            //create new order
-            Order order = new Order();
-            order.setUser(user);
-            order.setReceiverName(receiverName);
-            order.setReceiverAddress(receiverAddress);
-            order.setReceiverPhone(receiverPhone);  
-            order = this.orderRepository.save(order);
-
             //create order details
             // step1: get cart of user
             Cart cart = this.cartRepository.findByUser(user);
             if (cart != null) {
                 List<CartDetail> cartDetails = cart.getCartDetails();
+
                 if (cartDetails!=null){
+                     //create new order
+                    Order order = new Order();
+                    order.setUser(user);
+                    order.setReceiverName(receiverName);
+                    order.setReceiverAddress(receiverAddress);
+                    order.setReceiverPhone(receiverPhone);  
+                    order.setStatus("PENDING");
+                    
+                    double sum = 0;
+                    
                     for (CartDetail cartDetail : cartDetails) {
+                        sum += cartDetail.getPrice() * cartDetail.getQuantity();
+                    }
+                    order.setTotalPrice(sum);
+                    order = this.orderRepository.save(order);
+
                     // create order detail
+                    for (CartDetail cartDetail : cartDetails) {
                     OrderDetail orderDetail = new OrderDetail();
                     orderDetail.setOrder(order);
                     orderDetail.setProduct(cartDetail.getProduct());
                     orderDetail.setPrice(cartDetail.getPrice());
                     orderDetail.setQuantity(cartDetail.getQuantity());
+                    
                     this.orderDetailRepository.save(orderDetail);
                 }
                 // step2: delete cart details and cart
@@ -189,7 +318,9 @@ public class ProductService {
 
                 // step3: update session sum
                 session.setAttribute("sum", 0);
+                return order;
             }
         }
+        return null;
     }
 }

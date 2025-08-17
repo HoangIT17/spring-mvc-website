@@ -84,6 +84,7 @@ public class SecurityConfiguration {
             .permitAll()
 
             .requestMatchers("/admin/**").hasRole("ADMIN")
+            .requestMatchers("/shipper/**").hasRole("SHIPPER")
 
             .anyRequest().authenticated())
 

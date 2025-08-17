@@ -8,13 +8,42 @@
                 <meta charset="utf-8" />
                 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
                 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-                <meta name="description" content="HoangIT - Dự án laptopshop" />
+                <meta name="description" content="HoangIT - FoodFlow" />
                 <meta name="author" content="HoangIT" />
-                <title>Update Product</title>   
-                <link href="/css/styles.css" rel="stylesheet" />
-                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-                <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-                <script>
+                <title>Update Order</title>   
+                <!-- Google Web Fonts -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+                rel="stylesheet">
+            <!-- Libraries Stylesheet -->
+            <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+            <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+            <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+            <!-- Custom CSS -->
+            <link rel="stylesheet" href="/client/css/homepage.css">
+            <link rel="stylesheet" href="/client/css/homepage-new.css">
+            <link rel="stylesheet" href="/client/css/homepage-mobile.css">
+            <link rel="stylesheet" href="/client/css/advanced-modal.css">
+            <link rel="stylesheet" href="/client/css/user-dropdown.css">
+            <link rel="stylesheet" href="/client/css/chat-popup.css">
+            <style>
+                #layoutSidenav_content {
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
+                }
+                main {
+                    flex: 1;
+                }
+            </style>
+            <script>
                     $(document).ready(() => {
                         const avatarFile = $("#avatarFile");
                         const orgImage = "${newProduct.image}";
@@ -31,21 +60,22 @@
                         });
                     });
                 </script>
-            </head>
-
-            <body class="sb-nav-fixed">
-                <jsp:include page="../layout/header.jsp" />
-                <div id="layoutSidenav">
-                    <jsp:include page="../layout/sidebar.jsp" />
-                    <div id="layoutSidenav_content">
-                        <main>
-                            <div class="container-fluid px-4">
+        </head>
+        
+        <body class="sb-nav-fixed">
+            <jsp:include page="../layout/header.jsp" />
+            <div id="layoutSidenav">
+                <jsp:include page="../layout/sidebar.jsp" />
+                <div id="layoutSidenav_content">
+                    <main>
+                        <div class="container-fluid px-4">
                                 <h1 class="mt-4">Product</h1>
                                 <ol class="breadcrumb mb-4">
                                     <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-                                    <li class="breadcrumb-item active">Products</li>
+                                    <li class="breadcrumb-item"><a href="/admin/product">Products</a></li>
+                                    <li class="breadcrumb-item active">Update</li>
                                 </ol>
-                                <div class=" mt-5">
+                                <div class="mt-5">
                                     <div class="row">
                                         <div class="col-md-6 col-12 mx-auto">
                                             <h3>Update a product</h3>

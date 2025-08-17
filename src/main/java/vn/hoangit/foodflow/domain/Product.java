@@ -29,7 +29,7 @@ public class Product {
     private String image;
 
     @NotNull
-    @NotEmpty(message = "detailDesc không được để trống")
+    @NotEmpty(message = "detailDesc not empty")
     @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
 
@@ -39,8 +39,7 @@ public class Product {
 
     @NotNull
     @Min(value = 1, message = "Quantity must be greater than 1 or equal to 1")
-    private long quantity;
-    
+    private long quantity;    
     private long sold;
 
     public long getId() {

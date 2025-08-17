@@ -117,7 +117,7 @@
                                                             <i class="fas fa-minus" style="font-size: 12px;"></i>
                                                         </button>
                                                         <input type="text" class="form-control text-center border-warning" 
-                                                            value="1" id="quantity" name="quantity" 
+                                                            value="1" id="quantity" name="quantity" data-cart-detail-index="0"
                                                             style="font-weight: 600; height: 38px; border-radius: 0; border-left: none; border-right: none; text-align: center; line-height: 38px; padding: 0; width: 44px;">
                                                         <button class="btn btn-outline-warning btn-plus" type="button" 
                                                             style="height: 38px; width: 38px; border-radius: 0 6px 6px 0; border-left: none; display: flex; align-items: center; justify-content: center;">
@@ -125,9 +125,10 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                
-                                                <form method="post" action="/add-product-to-cart/${product.id}">
+                                                <!-- add-product-from-view-detail -->
+                                                <form method="post" action="/add-product-from-view-detail">
                                                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                                    <input type="hidden" name="id" value="${product.id}"/>
                                                     <input type="hidden" name="quantity" id="hiddenQuantity" value="1"/>
                                                     <button type="submit" class="btn btn-warning rounded-pill px-5 py-3 fw-bold text-white shadow-lg" 
                                                             style="font-size: 1.1rem; background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffc107 100%); border: none; transition: all 0.3s ease;">
@@ -323,6 +324,7 @@
 
                 <!-- Template Javascript -->
                 <script src="/client/js/main.js"></script>
+                <script src="/client/js/homepage.js"></script>
                 
                 <!-- Custom CSS for Product Detail Page -->
                 <style>

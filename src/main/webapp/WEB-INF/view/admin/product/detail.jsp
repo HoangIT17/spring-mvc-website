@@ -11,11 +11,37 @@
                 <meta name="description" content="Dự án laptopshop" />
                 <meta name="author" content="Hoang IT" />
                 <title>Detail Product</title>
-                <link href="/css/styles.css" rel="stylesheet" />
-
-                <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+                <!-- Google Web Fonts -->
+            <link rel="preconnect" href="https://fonts.googleapis.com">
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+            <link
+                href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
+                rel="stylesheet">
+            <!-- Libraries Stylesheet -->
+            <link href="/client/lib/lightbox/css/lightbox.min.css" rel="stylesheet">
+            <link href="/client/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+            <!-- Bootstrap CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <!-- Font Awesome -->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+            <!-- Custom CSS -->
+            <link rel="stylesheet" href="/client/css/homepage.css">
+            <link rel="stylesheet" href="/client/css/homepage-new.css">
+            <link rel="stylesheet" href="/client/css/homepage-mobile.css">
+            <link rel="stylesheet" href="/client/css/advanced-modal.css">
+            <link rel="stylesheet" href="/client/css/user-dropdown.css">
+            <link rel="stylesheet" href="/client/css/chat-popup.css">
             </head>
-
+            <style>
+                #layoutSidenav_content {
+                    display: flex;
+                    flex-direction: column;
+                    min-height: 100vh;
+                }
+                main {
+                    flex: 1;
+                }
+            </style>
             <body class="sb-nav-fixed">
                 <jsp:include page="../layout/header.jsp" />
                 <div id="layoutSidenav">

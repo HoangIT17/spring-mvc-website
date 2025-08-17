@@ -1,40 +1,49 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-            <!-- Navbar Brand-->
-            <a class="navbar-brand ps-3" href="/admin">FoodFlow</a>
-            <!-- Sidebar Toggle-->
-            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i
-                    class="fas fa-bars"></i></button>
-            <!-- Navbar Search-->
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <span style="color: white;">Welcome, HoangIT</span>
-                <!-- <div class="input-group">
-    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..."
-        aria-describedby="btnNavbarSearch" />
-    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i
-            class="fas fa-search"></i></button>
-</div> -->
-            </form>
-            <!-- Navbar-->
-            <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#!">Settings</a></li>
+        <div class="d-flex align-items-center justify-content-end bg-white py-2 px-4 shadow-sm" style="margin-left: 0px !important; margin-top: -3rem !important;">
+            <!-- Welcome Message -->
+            <div class="me-4">
+                <span class="text-muted">Welcome, </span>
+                <span class="fw-bold text-warning">${sessionScope.fullname}</span>
+            </div>
 
-                        <li>
-                            <hr class="dropdown-divider" />
-                        </li>
-                        <li>
-                            <form method="post" action="/logout" >
-                                <input type="hidden" name="${_csrf.parameterName}" 
-                                        value="${_csrf.token}"/>
-                                <button class="dropdown-item" >Logout</button>
-                            </form>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </nav>
+            <!-- Admin Dropdown -->
+            <div class="dropdown">
+                        <a href="#" class="dropdown" role="button" id="navbarDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user fa-2x text-warning"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="navbarDropdown">
+                            <li class="d-flex align-items-center flex-column" style="min-width: 250px;">
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.avatar}">
+                                        <img style="width: 80px; height: 80px; border-radius: 50%; overflow: hidden;"
+                                            src="/images/avatar/${sessionScope.avatar}" />
+                                    </c:when>
+                                    <c:otherwise>
+                                        <i class="fas fa-user-circle text-warning" style="font-size: 5rem;"></i>
+                                    </c:otherwise>
+                                </c:choose>
+                                <div class="text-center my-3">
+                                    <div class="fw-bold">${sessionScope.fullname}</div>
+                                    <small class="text-muted">Administrator</small>
+                                </div>
+                            </li>
+                            <li><a class="dropdown-item" href="#!">
+                                <i class="fas fa-cog me-2 text-warning"></i>Settings
+                            </a></li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <form method="post" action="/logout" >
+                                    <input type="hidden" name="${_csrf.parameterName}" 
+                                            value="${_csrf.token}"/>
+                                    <button class="dropdown-item text-danger">
+                                        <i class="fas fa-sign-out-alt me-2"></i>Logout
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>

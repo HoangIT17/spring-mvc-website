@@ -2448,3 +2448,119 @@ body {
     border-radius: 12px;
     margin-left: 8px;
 }
+
+/* Search Section Styles */
+.search-container {
+    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+    border: 1px solid rgba(255, 193, 7, 0.2);
+    transition: all 0.3s ease;
+}
+
+.search-container:hover {
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+.search-form .form-control:focus {
+    border-color: #ffc107;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+}
+
+.search-form .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+}
+
+.fruite-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.heart-btn {
+    transition: all 0.3s ease;
+}
+
+.heart-btn:hover {
+    background-color: #ff6b6b !important;
+    transform: scale(1.1);
+}
+
+.heart-btn:hover i {
+    color: white !important;
+}
+
+.heart-btn.active {
+    background-color: #ff6b6b !important;
+}
+
+.heart-btn.active i {
+    color: white !important;
+}
+
+.rating-stars {
+    letter-spacing: 1px;
+}
+
+.price-section {
+    position: relative;
+}
+
+.price-badge {
+    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 50%, #ffc107 100%);
+    padding: 6px 12px;
+    border-radius: 20px;
+    box-shadow: 0 3px 12px rgba(255, 107, 53, 0.3);
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.price-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(255, 107, 53, 0.4);
+}
+
+.price-badge::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.price-badge:hover::before {
+    left: 100%;
+}
+
+.price-amount {
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    font-family: 'Raleway', sans-serif;
+}
+
+.currency {
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    margin-left: 2px;
+}
+
+.price {
+    font-family: 'Raleway', sans-serif;
+}
+
+.btn-warning {
+    transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 193, 7, 0.4);
+}

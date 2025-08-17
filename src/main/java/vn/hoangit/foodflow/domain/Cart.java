@@ -29,9 +29,7 @@ public class Cart{
 
     //cart_detail_id
     @OneToMany(mappedBy = "cart")
-    private List<CartDetail
-    
-    > cartDetails;
+    private List<CartDetail> cartDetails;
 
     public long getId() {
         return id;
@@ -67,7 +65,7 @@ public class Cart{
 
     @Override
     public String toString() {
-        return "Cart [id=" + id + ", sum=" + sum + ", user=" + user + ", cartDetails=" + cartDetails + "]";
+        return "Cart [id=" + id + ", sum=" + sum + "]";
     }
 
     
