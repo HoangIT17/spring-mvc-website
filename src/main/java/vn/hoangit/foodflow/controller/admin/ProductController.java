@@ -36,13 +36,17 @@ public class ProductController {
 
     @RequestMapping("/admin/product")
     public String getProductPage(Model model,
-        @RequestParam("page") int page) {
+        @RequestParam(value = "page", required = false, defaultValue = "1") int page) {
         // databse: offset + limit
         // page .limit
         Pageable pageable = PageRequest.of(page - 1, 8);
         Page<Product> products = this.productService.fetchProducts(pageable);
         List<Product> listProducts = products.getContent();
         model.addAttribute("products", listProducts);
+
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", products.getTotalPages());
+
         return "admin/product/show";
     }
 

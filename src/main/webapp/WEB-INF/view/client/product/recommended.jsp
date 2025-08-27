@@ -19,7 +19,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <jsp:include page="../layout/nav.jsp" />
+    <jsp:include page="../layout/navnew.jsp" />
     <!-- Sidebar -->
     <jsp:include page="../layout/sidebar.jsp" />
     <!-- Main Content -->
