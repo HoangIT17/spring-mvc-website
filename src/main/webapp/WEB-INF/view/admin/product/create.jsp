@@ -54,9 +54,7 @@
                                             <!-- <div class="d-flex justify-content-between"> -->
                                                 <h3>Create a product</h3>
                                             <!-- </div> -->
-
-                                            <hr />
-                        
+                                            <hr />                        
                                             <form:form method="post" action="/admin/product/create"
                                                 modelAttribute="newProduct" class="row" enctype="multipart/form-data">
                                                 <c:set var="errorName">

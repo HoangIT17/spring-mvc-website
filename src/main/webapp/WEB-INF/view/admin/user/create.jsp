@@ -95,7 +95,9 @@
                                                             <form:errors path="email" cssClass="invalid-feedback" />
                                                         </c:set>
                                                         <label class="form-label">Email:</label>
-                                                        <form:input type="email" class="form-control ${not empty errorEmail ? 'is-invalid' : ''}" path="email" />
+                                                        <form:input type="email" 
+                                                        class="form-control ${not empty errorEmail ? 'is-invalid' : ''}" 
+                                                        path="email" />
                                                         ${errorEmail}
                                                     </div>
                                                 </div>
@@ -111,7 +113,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label class="form-label">Confirm Password:</label>
-                                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required />
+                                                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" />
                                                         <div class="invalid-feedback" id="confirmPasswordError" style="display:none;">Passwords do not match.</div>
                                                     </div>
                                                 </div>

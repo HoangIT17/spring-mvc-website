@@ -3,6 +3,9 @@ package vn.hoangit.foodflow.controller.admin;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,9 +35,14 @@ public class ProductController {
     }
 
     @RequestMapping("/admin/product")
-    public String getProductPage(Model model) {
-        List<Product> products = this.productService.fetchProducts();
-        model.addAttribute("products", products);
+    public String getProductPage(Model model,
+        @RequestParam("page") int page) {
+        // databse: offset + limit
+        // page .limit
+        Pageable pageable = PageRequest.of(page - 1, 8);
+        Page<Product> products = this.productService.fetchProducts(pageable);
+        List<Product> listProducts = products.getContent();
+        model.addAttribute("products", listProducts);
         return "admin/product/show";
     }
 

@@ -56,7 +56,7 @@
                     <div class="form-group mb-3 mb-md-0">
                         <label for="firstName">First Name</label>
                         <form:input type="text" class="form-control ${not empty errorFirstName ? 'is-invalid' : ''}" 
-                            id="firstName" placeholder="First name" path="firstName" required="true"/>
+                            id="firstName" placeholder="First name" path="firstName"  />
                         ${errorFirstName}
                     </div>
                 </div>
@@ -64,7 +64,7 @@
                     <div class="form-group">
                         <label for="lastName">Last Name</label>
                         <form:input type="text" class="form-control" id="lastName" 
-                            placeholder="Last name" path="lastName" required="true"/>
+                            placeholder="Last name" path="lastName" />
                         <div class="invalid-feedback"></div>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
             <div class="form-group mb-3">
                 <label for="email">Email</label>
                 <form:input type="email" class="form-control ${not empty errorEmail ? 'is-invalid' : ''}" 
-                    id="email" placeholder="Enter email address" path="email" required="true"/>
+                    id="email" placeholder="Enter email address" path="email"  />
                 ${errorEmail}
             </div>
 
@@ -83,7 +83,7 @@
                 <label for="password">Password</label>
                 <div class="input-group">
                     <form:input type="password" class="form-control ${not empty errorPassword ? 'is-invalid' : ''}" 
-                        id="password" placeholder="Create a password" path="password" required="true"/>
+                        id="password" placeholder="Create a password" path="password"  />
                     <span class="input-group-text" onclick="togglePassword('password', 'passwordToggleIcon')">
                         <i class="fas fa-eye" id="passwordToggleIcon"></i>
                     </span>
@@ -96,7 +96,7 @@
                 <label for="confirmPassword">Confirm Password</label>
                 <div class="input-group">
                     <form:input type="password" class="form-control" id="confirmPassword" 
-                        placeholder="Confirm password" path="confirmPassword" required="true"/>
+                        placeholder="Confirm password" path="confirmPassword"  />
                     <span class="input-group-text" onclick="togglePassword('confirmPassword', 'confirmPasswordToggleIcon')">
                         <i class="fas fa-eye" id="confirmPasswordToggleIcon"></i>
                     </span>
