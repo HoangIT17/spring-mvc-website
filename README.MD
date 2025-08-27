@@ -1,1 +1,1 @@
-# Java Spring Starter template (update)
+# Food delivery Spring MVC
